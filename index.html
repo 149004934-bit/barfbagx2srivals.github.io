@@ -1,0 +1,145 @@
+Brought to you by BarfbagX2  |  Follow @litho_band on insta
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>temu rivals</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      background: #000;
+      font-family: system-ui, sans-serif;
+    }
+    #fs-root {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      overflow: hidden;
+    }
+    #gameFrame {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+      background: #000;
+    }
+    #fs-btn {
+      position: absolute;
+      right: 16px;
+      bottom: 16px;
+      width: 44px;
+      height: 44px;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      background: rgba(34, 197, 94, 0.75);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.92;
+      transition: all 0.15s ease;
+      z-index: 10;
+    }
+    #fs-btn:hover {
+      transform: scale(1.12);
+      opacity: 1;
+      background: rgba(34, 197, 94, 0.9);
+    }
+    #fs-btn:active { transform: scale(0.95); }
+    #fs-btn svg {
+      width: 24px;
+      height: 24px;
+      stroke: #000;
+      stroke-width: 2.5;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    #fs-tip {
+      position: absolute;
+      right: 70px;
+      bottom: 20px;
+      padding: 8px 14px;
+      border-radius: 12px;
+      background: rgba(34, 197, 94, 0.85);
+      backdrop-filter: blur(12px);
+      color: #000;
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+      opacity: 0;
+      transform: translateY(6px);
+      transition: all 0.15s ease;
+      pointer-events: none;
+      white-space: nowrap;
+      z-index: 9;
+    }
+    #fs-btn:hover + #fs-tip {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+  <div id="fs-root">
+    <iframe 
+      id="gameFrame" 
+      src="https://kiz10.com/embed/veck-io/" 
+      allow="fullscreen; autoplay; gamepad; pointer-lock" 
+      allowfullscreen 
+      referrerpolicy="no-referrer" 
+      loading="lazy"
+      sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox allow-top-navigation-by-user-activation">
+    </iframe>
+
+    <button id="fs-btn" aria-label="Toggle Fullscreen">
+      <svg id="icon-expand" viewBox="0 0 24 24">
+        <path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"/>
+      </svg>
+      <svg id="icon-exit" viewBox="0 0 24 24" style="display:none;">
+        <path d="M9 3v6H3M15 3v6h6M9 21v-6H3M15 21v-6h6"/>
+      </svg>
+    </button>
+    <div id="fs-tip">Fullscreen</div>
+  </div>
+
+  <script>
+    const root = document.getElementById('fs-root');
+    const btn = document.getElementById('fs-btn');
+    const expand = document.getElementById('icon-expand');
+    const exit = document.getElementById('icon-exit');
+    const tip = document.getElementById('fs-tip');
+
+    function isFS() {
+      return !!document.fullscreenElement;
+    }
+
+    function sync() {
+      const active = isFS();
+      expand.style.display = active ? 'none' : 'block';
+      exit.style.display  = active ? 'block' : 'none';
+      tip.textContent = active ? 'Exit Fullscreen' : 'Fullscreen';
+      btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+    }
+
+    btn.addEventListener('click', async () => {
+      if (isFS()) {
+        await document.exitFullscreen?.();
+      } else {
+        await root.requestFullscreen?.({ navigationUI: 'hide' });
+      }
+    });
+
+    document.addEventListener('fullscreenchange', sync);
+    sync();
+  </script>
+</body>
+</html>
